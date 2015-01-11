@@ -1,1 +1,0 @@
-<script type="text/javascript" language="javascript" src="<?php echo erLhcoreClassDesign::designJS('js/osticket.js');?>"></script>

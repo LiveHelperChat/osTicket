@@ -11,10 +11,4 @@ $ViewList['createanissue'] = array(
     'functions' => array('use')
 );
 
-$ViewList['test'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use')
-);
-
 $FunctionList['use'] = array('explain' => 'Allow operator to create an issue from back office');

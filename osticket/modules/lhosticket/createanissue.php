@@ -15,7 +15,7 @@ if ( erLhcoreClassChat::hasAccessToRead($chat) )
     }	
 	exit;    
 } else {
-    echo json_encode(array('error' => true,'msg' => 'You do not have permission to access a chat'));
+    echo json_encode(array('error' => true,'msg' => erTranslationClassLhTranslation::getInstance()->getTranslation('osticket/createanissue','You do not have permission to access a chat')));
     exit;
 }
 
