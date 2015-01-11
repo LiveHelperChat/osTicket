@@ -1,0 +1,1 @@
+<a class="small button radius success" href="<?php echo erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionOsticket')->getIssueUrl($chat->chat_variables_array['os_ticket_id'])?>" title="Open an issue on osTicket" target="_blank">osTicket [<?php echo $chat->chat_variables_array['os_ticket_id']?>]</a>
