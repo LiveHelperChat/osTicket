@@ -1,0 +1,1 @@
+<?php $osticket_module_enabled_pre = !class_exists('erLhcoreClassInstance') || erLhcoreClassInstance::getInstance()->feature_1_supported == 1;?>

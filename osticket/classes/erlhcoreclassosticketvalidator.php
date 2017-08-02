@@ -20,6 +20,9 @@ class erLhcoreClassOsTicketValidator
                 'message' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
                 ),                                
+                'message_offline' => new ezcInputFormDefinitionElement(
+                    ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                ),                                
                 'throw_exceptions' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
                 ),
@@ -83,6 +86,13 @@ class erLhcoreClassOsTicketValidator
                 $data['message'] = $form->message;
             } else {
                 $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter message!');
+            }
+            
+            if ( $form->hasValidData( 'message_offline' ) && $form->message_offline != '')
+            {
+                $data['message_offline'] = $form->message_offline;
+            } else {
+                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter offline message!');
             }
             
             if ( $form->hasValidData( 'throw_exceptions' ) && $form->throw_exceptions == true)
