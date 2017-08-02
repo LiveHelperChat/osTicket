@@ -1,0 +1,1 @@
+<li><a href="<?php echo erLhcoreClassDesign::baseurl('osticket/index')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','osTicket');?></a></li>

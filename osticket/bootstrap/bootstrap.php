@@ -6,7 +6,7 @@
 class erLhcoreClassExtensionOsticket
 {
 
-    private $configData = false;
+    public $configData = false;
 
     public function __construct()
     {
@@ -15,6 +15,8 @@ class erLhcoreClassExtensionOsticket
 
     public function run()
     {
+        $this->registerAutoload ();
+        
         $dispatcher = erLhcoreClassChatEventDispatcher::getInstance();
         
         /**
@@ -27,13 +29,31 @@ class erLhcoreClassExtensionOsticket
         $dispatcher->listen('chat.close', array($this, 'chatClosed'));
         $dispatcher->listen('chat.chat_started', array($this, 'chatCreated'));
         $dispatcher->listen('chat.chat_offline_request', array($this, 'chatOfflineRequest'));
-        
     }
 
+    public function registerAutoload() {
+        spl_autoload_register ( array (
+            $this,
+            'autoload'
+        ), true, false );
+    }
+
+    public function autoload($className) {
+        $classesArray = array (
+            'erLhcoreClassOsTicketValidator' => 'extension/osticket/classes/erlhcoreclassosticketvalidator.php'
+        );
+    
+        if (key_exists ( $className, $classesArray )) {
+            include_once $classesArray [$className];
+        }
+    }
+    
     public function getConfig()
     {
         if ($this->configData === false) {
-            $this->configData = include('extension/osticket/settings/settings.ini.php');
+            $osTicketOptions = erLhcoreClassModelChatConfig::fetch('osticket_options');
+            $data = (array) $osTicketOptions->data;            
+            $this->configData = $data;
         }
     }
 
@@ -95,7 +115,7 @@ class erLhcoreClassExtensionOsticket
         
         $data = array(
             'name' => $chat->nick,
-            'email' => $chat->email,
+            'email' => $chat->email == '' ? 'no-email@' . $_SERVER['HTTP_HOST'] : $chat->email,
             'subject' => str_replace(array(
                 '{referrer}',
                 '{nick}',
@@ -153,7 +173,7 @@ class erLhcoreClassExtensionOsticket
     {
         $this->getConfig();
         
-        if ($this->configData['createissuecallbacks']['chat_create'] === true && ($this->configData['create_duplicate_issues'] == true || !isset($params['chat']->chat_variables_array['os_ticket_id'])) )
+        if (isset($this->configData['enabled']) && $this->configData['enabled'] == true && $this->configData['chat_create'] === true && ($this->configData['create_duplicate_issues'] == true || !isset($params['chat']->chat_variables_array['os_ticket_id'])) )
         {
             try {
                 $data = $this->fillDataByChat($params['chat']);
@@ -171,7 +191,7 @@ class erLhcoreClassExtensionOsticket
     {
         $this->getConfig();
                 
-        if ($this->configData['createissuecallbacks']['offline_request'] === true)
+        if (isset($this->configData['enabled']) && $this->configData['enabled'] == true && $this->configData['offline_request'] === true)
         {
             $chat = $params['chat'];
             $inputData = $params['input_data'];
@@ -249,7 +269,7 @@ class erLhcoreClassExtensionOsticket
     public function createTicketByChat(erLhcoreClassModelChat & $chat) 
     {   
         $this->getConfig();    
-        if ($this->configData['create_duplicate_issues'] === true || !isset($chat->chat_variables_array['os_ticket_id'])){
+        if ((isset($this->configData['enabled']) && $this->configData['enabled'] == true) && ($this->configData['create_duplicate_issues'] === true || !isset($chat->chat_variables_array['os_ticket_id']))){
             $data = $this->fillDataByChat($chat);        
             $ticketId = $this->sendRequest($data);
             $this->assignChatOsTicketId($chat, $ticketId);               
@@ -262,7 +282,7 @@ class erLhcoreClassExtensionOsticket
     public function chatClosed($params)
     {   
         $this->getConfig();            
-        if ($this->configData['createissuecallbacks']['chat_close'] === true && ($this->configData['create_duplicate_issues'] === true || !isset($params['chat']->chat_variables_array['os_ticket_id'])))
+        if ((isset($this->configData['enabled']) && $this->configData['enabled'] == true) && $this->configData['chat_close'] === true && ($this->configData['create_duplicate_issues'] === true || !isset($params['chat']->chat_variables_array['os_ticket_id'])))
         {
             try {
                 $data = $this->fillDataByChat($params['chat']);
