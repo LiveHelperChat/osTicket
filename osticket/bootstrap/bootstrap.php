@@ -204,7 +204,7 @@ class erLhcoreClassExtensionOsticket
                 'name' => $chat->nick,
                 'email' => $chat->email,
                 'subject' => str_replace(array(
-                    '{department}',,
+                    '{department}',
                     '{referrer}',
                     '{nick}',
                     '{email}',
@@ -224,7 +224,7 @@ class erLhcoreClassExtensionOsticket
                 ), $this->configData['subject']
                 ),
                 'message' => str_replace(array(
-                    '{department}',,
+                    '{department}',
                     '{time_created_front}',
                     '{additional_data}',
                     '{referrer}',
