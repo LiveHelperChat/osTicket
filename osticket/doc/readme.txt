@@ -3,11 +3,7 @@ osTicket extension for Live Helper Chat
 1. Copy osticket folder to extension folder so it should look like
 extension/osticket
 
-2. Edit extension settings in osticket/settings.ini.php
-set your 
-"api_key"
-"host"
-"issueurl"
+2. Edit extension settings in back office
 
 Also you can edit issue templates
 
