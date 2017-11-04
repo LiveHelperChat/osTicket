@@ -97,6 +97,7 @@ class erLhcoreClassExtensionOsticket
             'name' => $chat->nick,
             'email' => $chat->email,
             'subject' => str_replace(array(
+                '{department}',
                 '{referrer}',
                 '{nick}',
                 '{email}',
@@ -105,6 +106,7 @@ class erLhcoreClassExtensionOsticket
                 '{city}',
                 '{user_tz_identifier}'
             ), array(
+                (string)$chat->department,
                 $chat->referrer,
                 $chat->nick,
                 $chat->email,
@@ -115,6 +117,7 @@ class erLhcoreClassExtensionOsticket
             ), $this->configData['subject']
             ),
             'message' => str_replace(array(
+                '{department}',
                 '{time_created_front}',
                 '{additional_data}',
                 '{id}',
@@ -129,6 +132,7 @@ class erLhcoreClassExtensionOsticket
                 '{city}',
                 '{user_tz_identifier}'
             ), array(
+                (string)$chat->department,
                 date(erLhcoreClassModule::$dateDateHourFormat,$chat->time),
                 $chat->additional_data,
                 $chat->id,
