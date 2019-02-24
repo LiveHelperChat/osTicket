@@ -22,7 +22,13 @@ class erLhcoreClassOsTicketValidator
                 ),                                
                 'message_offline' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
-                ),                                
+                ),
+                'static_username' => new ezcInputFormDefinitionElement(
+                    ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                ),
+                'static_email' => new ezcInputFormDefinitionElement(
+                    ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+                ),
                 'throw_exceptions' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
                 ),
@@ -39,6 +45,9 @@ class erLhcoreClassOsTicketValidator
                     ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
                 ),
                 'chat_create' => new ezcInputFormDefinitionElement(
+                    ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+                ),
+                'use_email' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
                 )
             );
@@ -72,6 +81,20 @@ class erLhcoreClassOsTicketValidator
                 $data['issueurl'] = $form->issueurl;
             } else {
                 $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter Issue URL!');
+            }
+
+            if ( $form->hasValidData( 'static_username' ) && $form->static_username != '')
+            {
+                $data['static_username'] = $form->static_username;
+            } else {
+                $data['static_username'] = '';
+            }
+
+            if ( $form->hasValidData( 'static_email' ) && $form->static_email != '')
+            {
+                $data['static_email'] = $form->static_email;
+            } else {
+                $data['static_email'] = '';
             }
             
             if ( $form->hasValidData( 'subject' ) && $form->subject != '')
@@ -121,6 +144,13 @@ class erLhcoreClassOsTicketValidator
                 $data['chat_create'] = true;
             } else {
                 $data['chat_create'] = false;
+            }
+
+            if ( $form->hasValidData( 'use_email' ) && $form->use_email == true)
+            {
+                $data['use_email'] = true;
+            } else {
+                $data['use_email'] = false;
             }
             
             if ( $form->hasValidData( 'create_duplicate_issues' ) && $form->create_duplicate_issues == true)

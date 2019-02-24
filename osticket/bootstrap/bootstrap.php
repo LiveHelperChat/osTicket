@@ -114,8 +114,8 @@ class erLhcoreClassExtensionOsticket
         }
         
         $data = array(
-            'name' => $chat->nick,
-            'email' => $chat->email == '' ? 'no-email@' . $_SERVER['HTTP_HOST'] : $chat->email,
+            'name' => ((isset($this->configData['use_email']) && $this->configData['use_email'] == true && $chat->email != '') ? $chat->email : ((isset($this->configData['static_username']) && $this->configData['static_username'] != '') ? $this->configData['static_username'] : $chat->nick)),
+            'email' => $chat->email == '' ? ((isset($this->configData['static_email']) && $this->configData['static_email'] != '') ? $this->configData['static_email']  : 'no-email@' . $_SERVER['HTTP_HOST']) : $chat->email,
             'subject' => str_replace(array(
                 '{department}',
                 '{referrer}',
@@ -136,7 +136,7 @@ class erLhcoreClassExtensionOsticket
                 $chat->user_tz_identifier
             ), $this->configData['subject']
             ),
-            'message' => str_replace(array(
+            'message' => 'data:text/html,' . nl2br(str_replace(array(
                 '{department}',
                 '{time_created_front}',
                 '{additional_data}',
@@ -166,10 +166,10 @@ class erLhcoreClassExtensionOsticket
                 $chat->country_name,
                 $chat->city,
                 $chat->user_tz_identifier
-            ), $this->configData['message']),
+            ), $this->configData['message'])),
             'ip' => $chat->ip
         );
-        
+
         return $data;
     }
     

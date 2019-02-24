@@ -56,8 +56,23 @@
 	    <label><input type="checkbox" value="on" name="chat_create" <?php echo isset($data['chat_create']) && $data['chat_create'] == true ? 'checked="checked"' : '' ?> /> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','On new chat')?></label>
 	</div>
       
-   <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','Issue details');?></h4> 
-   <div class="form-group">
+   <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','Issue details');?></h4>
+
+    <div class="form-group">
+        <label><input type="checkbox" value="on" name="use_email" <?php echo isset($data['use_email']) && $data['use_email'] == true ? 'checked="checked"' : '' ?> /> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','Use E-mail as visitor name. Will be used to e-mail send name attribute');?></label>
+    </div>
+
+    <div class="form-group">
+        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','Do not use chat nick and use this text value as client name');?></label>
+        <input class="form-control" type="text" name="static_username" value="<?php echo isset($data['static_username']) ? htmlspecialchars($data['static_username']) : '' ?>" />
+    </div>
+
+    <div class="form-group">
+        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','If chat does not have an e-mail use this');?></label>
+        <input class="form-control" type="text" name="static_email" value="<?php echo isset($data['static_email']) ? htmlspecialchars($data['static_email']) : '' ?>" />
+    </div>
+
+    <div class="form-group">
         <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','Subject');?></label>
         <input type="text" class="form-control" placeholder="New ticket from Live Support {nick} {email} {country_code} {country_name} {city} {user_tz_identifier}" name="subject" value="<?php echo isset($data['subject']) && !empty($data['subject']) ? htmlspecialchars($data['subject']) : 'New ticket from Live Support {nick} {email} {country_code} {country_name} {city} {user_tz_identifier}'?>" />
     </div>
