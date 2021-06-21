@@ -117,6 +117,7 @@ class erLhcoreClassExtensionOsticket
             'name' => ((isset($this->configData['use_email']) && $this->configData['use_email'] == true && $chat->email != '') ? $chat->email : ((isset($this->configData['static_username']) && $this->configData['static_username'] != '') ? $this->configData['static_username'] : $chat->nick)),
             'email' => $chat->email == '' ? ((isset($this->configData['static_email']) && $this->configData['static_email'] != '') ? $this->configData['static_email']  : 'no-email@' . $_SERVER['HTTP_HOST']) : $chat->email,
             'subject' => str_replace(array(
+                '{id}',
                 '{department}',
                 '{referrer}',
                 '{nick}',
@@ -126,6 +127,7 @@ class erLhcoreClassExtensionOsticket
                 '{city}',
                 '{user_tz_identifier}'
             ), array(
+                (string)$chat->id,
                 (string)$chat->department,
                 $chat->referrer,
                 $chat->nick,
