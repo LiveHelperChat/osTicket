@@ -49,6 +49,9 @@ class erLhcoreClassOsTicketValidator
                 ),
                 'use_email' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+                ),
+                'extra_fields' => new ezcInputFormDefinitionElement(
+                    ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
                 )
             );
 
@@ -158,6 +161,17 @@ class erLhcoreClassOsTicketValidator
                 $data['create_duplicate_issues'] = true;
             } else {
                 $data['create_duplicate_issues'] = false;
+            }
+
+            if ( $form->hasValidData( 'extra_fields' ) && $form->extra_fields != '')
+            {
+                $decoded = json_decode($form->extra_fields, true);
+                $data['extra_fields'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $form->extra_fields : '';
+                if ($data['extra_fields'] === '') {
+                    $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('osticket/settings','Extra fields must be a valid JSON object!');
+                }
+            } else {
+                $data['extra_fields'] = '';
             }
             
             return $Errors;        

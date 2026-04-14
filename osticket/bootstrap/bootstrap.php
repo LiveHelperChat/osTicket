@@ -176,6 +176,13 @@ class erLhcoreClassExtensionOsticket
             'ip' => $chat->ip
         );
 
+        if (!empty($this->configData['extra_fields'])) {
+            $extraFields = json_decode($this->configData['extra_fields'], true);
+            if (is_array($extraFields)) {
+                $data = array_merge($data, $extraFields);
+            }
+        }
+
         return $data;
     }
     
@@ -260,6 +267,13 @@ class erLhcoreClassExtensionOsticket
                 ), $this->configData['message_offline']),
                 'ip' => $chat->ip
             );
+
+            if (!empty($this->configData['extra_fields'])) {
+                $extraFields = json_decode($this->configData['extra_fields'], true);
+                if (is_array($extraFields)) {
+                    $data = array_merge($data, $extraFields);
+                }
+            }
             
             try {
                 $ticketId = $this->sendRequest($data); 
@@ -288,7 +302,7 @@ class erLhcoreClassExtensionOsticket
     {   
         $this->getConfig();    
         if ((isset($this->configData['enabled']) && $this->configData['enabled'] == true) && ($this->configData['create_duplicate_issues'] === true || !isset($chat->chat_variables_array['os_ticket_id']))){
-            $data = $this->fillDataByChat($chat);        
+            $data = $this->fillDataByChat($chat);
             $ticketId = $this->sendRequest($data);
             $this->assignChatOsTicketId($chat, $ticketId);               
             return $ticketId;

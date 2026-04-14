@@ -87,6 +87,12 @@
         <textarea class="form-control" rows="10" name="message_offline"><?php if (isset($data['message_offline']) && !empty($data['message_offline'])) : ?><?php echo htmlspecialchars($data['message_offline'])?><?php else : ?><?php echo "User nick - {nick}\nUser e-mail - {email}\nProcessed at - {time_created_front}\n\n//---------------//\nReferer\n{referrer}\n\n//---------------//\nUser message\n{message}\n\n//----------------//\nUser geo data:\nCountry code - {country_code} {country_name} {city}\n\n//----------------//\nAdditional data\n{additional_data}";?><?php endif;?></textarea>
     </div>
 
+    <div class="form-group">
+        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','Extra fields (JSON)');?></label>
+        <textarea class="form-control" rows="5" name="extra_fields" placeholder='{"priorityId":2,"topicId":5}'><?php echo isset($data['extra_fields']) ? htmlspecialchars($data['extra_fields']) : ''?></textarea>
+        <small class="text-muted"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','Optional JSON object with additional fields required by your osTicket instance (e.g. custom fields, priorityId, topicId). Example: {"priorityId":2}');?></small>
+    </div>
+
     <div class="btn-group" role="group" aria-label="...">
     	<input type="submit" name="Update" class="btn btn-primary" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/osticket','Save');?>"> 
     </div>
