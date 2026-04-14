@@ -179,6 +179,10 @@ class erLhcoreClassExtensionOsticket
         if (!empty($this->configData['extra_fields'])) {
             $extraFields = json_decode($this->configData['extra_fields'], true);
             if (is_array($extraFields)) {
+                $params = ['chat' => $chat];
+                foreach ($extraFields as $key => $value) {
+                    $extraFields[$key] = erLhcoreClassGenericBotWorkflow::translateMessage($value, array('chat' => $chat, 'args' => $params));
+                }
                 $data = array_merge($data, $extraFields);
             }
         }
@@ -271,6 +275,9 @@ class erLhcoreClassExtensionOsticket
             if (!empty($this->configData['extra_fields'])) {
                 $extraFields = json_decode($this->configData['extra_fields'], true);
                 if (is_array($extraFields)) {
+                    foreach ($extraFields as $key => $value) {
+                        $extraFields[$key] = erLhcoreClassGenericBotWorkflow::translateMessage($value, array('chat' => $chat, 'args' => $params));
+                    }
                     $data = array_merge($data, $extraFields);
                 }
             }
